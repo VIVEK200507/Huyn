@@ -6,9 +6,32 @@
       "type": "string"
     },
     "price": {
-      "type": "string"
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "string",
+          "const": "TODO"
+        }
+      ]
     },
-    "description": {
+    "category": {
+      "type": "string",
+      "enum": [
+        "Appetizers",
+        "Pasta n Pizza",
+        "Dessert",
+        "Hot Beverage"
+      ]
+    },
+    "veg": {
+      "type": "boolean"
+    },
+    "order": {
+      "type": "number"
+    },
+    "note": {
       "type": "string"
     },
     "$schema": {
@@ -17,6 +40,9 @@
   },
   "required": [
     "name",
-    "price"
+    "price",
+    "category",
+    "veg",
+    "order"
   ]
 }

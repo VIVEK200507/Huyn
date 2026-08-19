@@ -11,12 +11,16 @@
     "description": {
       "type": "string"
     },
+    "image": {
+      "type": "string"
+    },
     "$schema": {
       "type": "string"
     }
   },
   "required": [
     "title",
-    "date"
+    "date",
+    "description"
   ]
 }
