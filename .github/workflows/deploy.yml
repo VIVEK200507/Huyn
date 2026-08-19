@@ -2,7 +2,8 @@ name: Deploy Astro to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -14,19 +15,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
+          cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Build Astro
-        run: npm run build
+      - name: Verify Astro install
+        run: npx astro --version
+
+      - name: Build Astro site
+        run: npx astro build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -37,5 +42,5 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         uses: actions/deploy-pages@v4
