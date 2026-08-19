@@ -19,7 +19,7 @@ import tailwindcss from '@tailwindcss/vite';
 //   base: '/',
 // ─────────────────────────────────────────────────────────────
 export default defineConfig({
-  site: 'https://huyn.com',
+  site: 'https://huyn.in',
   base: '/',
   output: 'static',
   vite: {
