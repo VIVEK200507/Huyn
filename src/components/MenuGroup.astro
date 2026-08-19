@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from "astro:content";
+import MenuItem from "./MenuItem.astro";
+
+interface Props {
+  title: string;
+  items: CollectionEntry<"menu">[];
+  images?: Record<string, string>;
+}
+const { title, items, images = {} } = Astro.props;
+const showDot = title !== "Hot Beverage";
+
+const sorted = items.sort((a, b) => a.data.order - b.data.order);
+
+// Only items that actually have an image count toward left/right
+// alternation — text-only items in between don't break the rhythm.
+let imageIndex = 0;
+---
+<div class="max-w-[680px] mx-auto mb-14">
+  <h3 class="font-display italic text-2xl text-red border-b border-ink/15 pb-2 mb-6">{title}</h3>
+  {sorted.map((item) => {
+    const image = images[item.id];
+    const reverse = image ? imageIndex++ % 2 === 1 : false;
+    return <MenuItem item={item} showDot={showDot} image={image} reverse={reverse} />;
+  })}
+</div>

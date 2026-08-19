@@ -1,0 +1,12 @@
+---
+interface Props {
+  size?: "sm" | "md";
+}
+const { size = "md" } = Astro.props;
+const dims = size === "sm" ? "w-9 h-9" : "w-12 h-12";
+---
+<img
+  src="/logo.jpeg"
+  alt="Hayu Cafe logo"
+  class={`${dims} rounded-full object-cover shadow-md shrink-0`}
+/>

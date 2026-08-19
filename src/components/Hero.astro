@@ -1,0 +1,115 @@
+
+  <section id="hero"
+    class="relative h-[100svh] min-h-[560px] flex items-center justify-center overflow-hidden text-cream">
+
+    <!-- ✅ BACKGROUND IMAGE -->
+    <img 
+      src="/images/cafe.PNG"
+      alt="Cafe"
+      class="absolute inset-0 w-full h-full object-cover z-0"
+    />
+
+    <!-- ✅ DARK OVERLAY (important for readability) -->
+    <div class="absolute inset-0 bg-forest-deep/70 z-0"></div>
+
+    <!-- ✅ GRADIENT (optional blend) -->
+    <div class="absolute inset-0 z-0"
+      style="background: radial-gradient(120% 120% at 50% 20%, rgba(28,39,24,0.6) 0%, rgba(18,25,15,0.9) 60%, rgba(11,15,9,1) 100%);">
+    </div>
+
+    <!-- TEXT ANIMATION -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-10" aria-hidden="true">
+      <span class="hero-word absolute font-display italic font-semibold text-center px-4"
+        style="font-size: clamp(2.6rem, 9vw, 6.5rem);">Experience</span>
+      <span class="hero-word absolute font-display italic font-semibold text-center px-4"
+        style="font-size: clamp(2.6rem, 9vw, 6.5rem);">Warmth</span>
+      <span class="hero-word absolute font-display italic font-semibold text-center px-4"
+        style="font-size: clamp(2.6rem, 9vw, 6.5rem);">Community</span>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="hero-reveal" class="relative z-20 text-center px-5 opacity-0 translate-y-3">
+      <p class="text-xs tracking-[0.18em] uppercase text-sage mb-3">
+        29.6768° N, 80.2716° E
+      </p>
+
+      <h1 class="font-script font-semibold"
+        style="font-size: clamp(3.2rem, 11vw, 7rem); line-height:1;">
+        Huyn Cafe
+      </h1>
+
+      <p class="mt-3 text-[#D8D1BE] font-light"
+        style="font-size: clamp(0.95rem, 2vw, 1.1rem);">
+        Coffee · Quick Bites & Desserts — hidden among the Kumaon pines.
+      </p>
+      <a href="/menu"
+        class="inline-block mt-8 px-8 py-3 rounded-full border border-sage text-sm tracking-wide uppercase
+              hover:bg-terracotta hover:border-terracotta hover:text-white transition-colors duration-300">
+        See the menu
+      </a>
+    </div>
+
+    <!-- SCROLL INDICATOR -->
+    <div id="scroll-cue"
+      class="absolute bottom-8 left-1/2 -translate-x-1/2 w-px h-9 bg-cream/25 overflow-hidden opacity-0 z-20">
+      <span class="block w-full h-3.5 bg-cream animate-[cueDrop_1.8s_ease-in-out_infinite]"></span>
+    </div>
+
+  </section>
+
+  <style>
+    @keyframes cueDrop {
+      0%   { transform: translateY(-100%); }
+      100% { transform: translateY(140%); }
+    }
+  </style>
+
+  <script>
+    import gsap from "gsap";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const words = gsap.utils.toArray<HTMLElement>(".hero-word");
+      const reveal = document.getElementById("hero-reveal");
+      const scrollCue = document.getElementById("scroll-cue");
+      const nav = document.getElementById("site-nav");
+      if (!words.length || !reveal) return;
+
+      // Respect reduced motion: skip straight to final state, no animation.
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReduced) {
+        gsap.set(words, { opacity: 0 });
+        gsap.set(reveal, { opacity: 1, y: 0 });
+        if (scrollCue) gsap.set(scrollCue, { opacity: 1 });
+        if (nav) nav.classList.remove("opacity-0", "-translate-y-3", "pointer-events-none");
+        return;
+      }
+
+      gsap.set(words, { opacity: 0, y: 26, scale: 0.95, filter: "blur(10px)" });
+
+      const tl = gsap.timeline({
+        defaults: { ease: "power2.out" },
+        onComplete: () => {
+          if (!nav) return;
+          nav.classList.remove("opacity-0", "-translate-y-3", "pointer-events-none");
+          gsap.fromTo(nav, { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
+        },
+      });
+
+      // Each word: fade + rise + blur-to-clear + scale in, 0.5s stagger between starts,
+      // fades fully out before the next word appears (never two visible at once).
+      words.forEach((word, i) => {
+        tl.to(word, {
+          opacity: 1, y: 0, scale: 1, filter: "blur(0px)",
+          duration: 0.55, ease: "power2.out",
+        }, i === 0 ? 0 : "+=0.5");
+
+        tl.to(word, {
+          opacity: 0, y: -14, scale: 1.02, filter: "blur(6px)",
+          duration: 0.4, ease: "power2.in",
+        }, "+=0.15");
+      });
+
+      tl.to(reveal, { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" }, "+=0.1");
+      if (scrollCue) tl.to(scrollCue, { opacity: 1, duration: 0.6 }, "-=0.4");
+    });
+  </script>

@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MenuGroup from "../components/MenuGroup.astro";
+import { getCollection } from "astro:content";
+
+const allItems = await getCollection("menu");
+const categories = ["Appetizers", "Pasta n Pizza", "Dessert", "Hot Beverage"] as const;
+
+// Real illustrations pulled from the cafe's own PDF menu.
+// Only items that actually had matching art get an image — the rest
+// stay text-only, same as in the original PDF.
+const menuImages: Record<string, string> = {
+  "01-falafel-pita-pocket": "/images/menu/falafel-pita-pocket.webp",
+  "03-sandwich": "/images/menu/sandwich.webp",
+  "06-pasta-aglio-e-olio": "/images/menu/pasta-sticker.webp",
+  "07-pizza-la-piaza": "/images/menu/pizza.webp",
+  "10-tiramisu": "/images/menu/tiramisu.webp",
+  "11-affogato": "/images/menu/affogato.webp",
+  "13-cappuccino": "/images/menu/cappuccino.webp",
+  "17-green-tea": "/images/menu/green-tea.webp",
+};
+---
+<BaseLayout title="Menu">
+  <section class="pt-32 pb-6 px-6 bg-cream-deep">
+    <p class="text-xs tracking-[0.18em] uppercase text-terracotta text-center mb-2">What we're serving</p>
+    <h1 class="font-display font-semibold text-4xl text-forest text-center mb-4">Menu</h1>
+    <div class="flex justify-center gap-6 text-sm text-[#5c5646] mb-14">
+      <span class="flex items-center gap-1.5"><span class="dot-veg"></span> Veg</span>
+      <span class="flex items-center gap-1.5"><span class="dot-nonveg"></span> Non-veg</span>
+    </div>
+  </section>
+
+  <section class="pb-24 px-6 bg-cream-deep">
+    {categories.map((cat) => (
+      <MenuGroup
+        title={cat}
+        items={allItems.filter((i) => i.data.category === cat)}
+        images={menuImages}
+      />
+    ))}
+  </section>
+</BaseLayout>

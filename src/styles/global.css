@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+/* ============ DESIGN TOKENS ============ */
+@theme {
+  --color-cream: #F6F1E4;
+  --color-cream-dim: #EDE5D2;
+  --color-ink: #2B2620;
+  --color-forest: #2E3D2F;
+  --color-forest-deep: #12190F;
+  --color-sage: #7C9070;
+  --color-terracotta: #C15B2C;
+  --color-red: #A8382A;
+
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-script: "Caveat", cursive;
+  --font-body: "Jost", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* RESET */
+html, body {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  overflow-x: hidden; /* FIX horizontal scroll */
+  width: 100%; /* FIX horizontal scroll */
+}
+
+* {
+  box-sizing: border-box;
+  max-width: 100%;
+
+}
+/* BODY */
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Media safety */
+img, video, iframe {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Prevent rogue elements */
+section, div {
+  overflow-x: clip;
+}
+
+/* ACCESSIBILITY */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* MOTIFS */
+.dot-veg {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--color-sage);
+}
+
+.dot-nonveg {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 10px solid var(--color-red);
+}
+
+/* ================= LOADER ================= */
+#loader {
+  height: 100vh; /* FIXED */
+  width: 100%;   /* FIXED (avoid 100vw) */
+  background-color: var(--color-forest-deep);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden; /* prevents scroll issue */
+  transition: opacity 0.7s ease;
+}
+
+/* TEXT */
+#loader h1 {
+  font-size: clamp(24px, 4vw, 60px); /* FIXED responsive */
+  font-family: var(--font-display);
+  letter-spacing: 2px;
+
+  color: transparent;
+  background: linear-gradient(
+    to right,
+    var(--color-cream),
+    var(--color-terracotta),
+    var(--color-red)
+  );
+  -webkit-background-clip: text;
+
+  position: absolute;
+  opacity: 0;
+
+  animation: load 1s ease forwards;
+}
+
+/* DELAYS */
+#loader h1:nth-child(1) { animation-delay: 0.5s; }
+#loader h1:nth-child(2) { animation-delay: 1.5s; }
+#loader h1:nth-child(3) { animation-delay: 2.5s; }
+
+/* ANIMATION */
+@keyframes load {
+  0%   { opacity: 0; transform: translateY(20px); }
+  10%  { opacity: 1; transform: translateY(0); }
+  90%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+/* OPTIONAL: HIDE SCROLLBAR */
+body::-webkit-scrollbar {
+  display: none;
+}
+body {
+  scrollbar-width: none;
+}
+

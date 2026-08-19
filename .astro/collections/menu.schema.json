@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "string",
+          "const": "TODO"
+        }
+      ]
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Appetizers",
+        "Pasta n Pizza",
+        "Dessert",
+        "Hot Beverage"
+      ]
+    },
+    "veg": {
+      "type": "boolean"
+    },
+    "order": {
+      "type": "number"
+    },
+    "note": {
+      "type": "string"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "price",
+    "category",
+    "veg",
+    "order"
+  ]
+}

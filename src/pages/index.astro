@@ -1,0 +1,106 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import { getCollection } from "astro:content";
+
+const allItems = await getCollection("menu");
+// Hand-picked preview, not the whole menu
+const previewIds = ["01-falafel-pita-pocket", "07-pizza-la-piaza", "10-tiramisu", "13-cappuccino"];
+const preview = previewIds
+  .map((id) => allItems.find((i) => i.id === id))
+  .filter((i): i is NonNullable<typeof i> => Boolean(i));
+---
+<BaseLayout title="Home">
+  <Hero />
+
+  <!-- ABOUT TEASER -->
+  <section class="relative px-6 pt-24 pb-20 bg-cream text-center">
+    <div class="max-w-[640px] mx-auto">
+      <p class="text-xs tracking-[0.18em] uppercase text-terracotta mb-2">Our story</p>
+      <h2 class="font-display font-semibold text-3xl md:text-4xl text-forest leading-tight">
+        A small door,<br>a warm room.
+      </h2>
+      <p class="mt-5 text-[#4B4636] font-light leading-relaxed">
+        Huyn Cafe sits where the pine line starts to thicken — a cup of something
+        hot, a plate of something simple, and enough quiet to actually taste it.
+        We keep the menu small on purpose: everything made fresh, nothing sitting
+        around waiting to be ordered.
+      </p>
+    </div>
+
+    <!-- pine ridge divider -->
+    <div class="text-forest opacity-85 h-12 mt-16" aria-hidden="true">
+      <svg viewBox="0 0 1200 80" preserveAspectRatio="none" class="w-full h-full">
+        <path d="M0,80 L40,10 L60,40 L90,0 L120,45 L150,15 L180,50 L210,5 L240,42 L270,12 L300,48
+                 L330,8 L360,44 L390,18 L420,50 L450,6 L480,40 L510,14 L540,46 L570,10 L600,42
+                 L630,16 L660,48 L690,8 L720,44 L750,18 L780,50 L810,6 L840,40 L870,14 L900,46
+                 L930,10 L960,42 L990,16 L1020,48 L1050,8 L1080,44 L1110,18 L1140,50 L1170,6 L1200,40
+                 L1200,80 Z" fill="currentColor"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- MENU PREVIEW -->
+  <section class="bg-cream-dim px-6 py-20">
+    <p class="text-xs tracking-[0.18em] uppercase text-terracotta text-center mb-2">A few favorites</p>
+    <h2 class="font-display font-semibold text-3xl text-forest text-center mb-12">From the Menu</h2>
+
+    <div class="max-w-3xl mx-auto grid sm:grid-cols-2 gap-x-10 gap-y-6">
+      {preview.map((item) => (
+        <div class="flex items-baseline gap-2">
+          <span class={item.data.veg ? "dot-veg relative -top-0.5 shrink-0" : "dot-nonveg relative -top-0.5 shrink-0"}></span>
+          <h4 class="font-medium uppercase tracking-wide text-sm">{item.data.name}</h4>
+          <span class="ml-auto font-display font-semibold text-forest">{item.data.price}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="text-center mt-12">
+      <a href="/menu" class="inline-block px-8 py-3 rounded-full border border-forest text-sm tracking-wide uppercase
+                              hover:bg-terracotta hover:border-terracotta hover:text-white transition-colors duration-300">
+        See full menu
+      </a>
+    </div>
+  </section>
+
+  <!-- VISIT -->
+  <section class="bg-forest-deep text-cream px-6 py-20">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-xs tracking-[0.18em] uppercase text-sage mb-2">Find us</p>
+      <h2 class="font-display font-semibold text-3xl mb-3">Visit Huyn Cafe</h2>
+      <p class="font-script text-2xl text-[#C9BFA0] mb-12">29.6768&deg; N, 80.2716&deg; E</p>
+
+      <div class="grid sm:grid-cols-3 gap-8 text-left">
+        <div>
+          <h4 class="font-display italic text-terracotta mb-1">Hours</h4>
+          <!-- TODO: replace with real hours -->
+          <p class="text-sm text-[#CFC8B4] font-light leading-relaxed">8:00 AM – 10:00 PM, Everday</p>
+        </div>
+        <div>
+          <h4 class="font-display italic text-terracotta mb-1">Address</h4>
+          <!-- TODO: replace with real address -->
+          <p class="text-sm text-[#CFC8B4] font-light leading-relaxed">Pithoragarh, Uttarakhand</p>
+        </div>
+        <div>
+          <h4 class="font-display italic text-terracotta mb-1">Contact</h4>
+          <!-- TODO: replace with real phone / email / instagram -->
+         <p class="text-sm text-[#CFC8B4] font-light leading-relaxed">
+  <a href="https://wa.me/917060118172" target="_blank" rel="noopener noreferrer"
+     class="hover:text-terracotta transition-colors">
+    +91 70601 18172
+  </a><br>
+  <a href="https://wa.me/917300881282" target="_blank" rel="noopener noreferrer"
+     class="hover:text-terracotta transition-colors">
+    +91 73008 81282
+  </a><br>
+  Email: Huyn.cafe@gmail.com<br>
+  <a href="https://www.instagram.com/huyncafe.in?igsh=ODA3Z3dxemcyejZz" target="_blank" rel="noopener noreferrer"
+     class="hover:text-terracotta transition-colors">
+    Instagram
+  </a>
+</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

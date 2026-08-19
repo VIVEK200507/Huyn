@@ -1,0 +1,15 @@
+---
+// TODO: replace this whole grid with real photography.
+// Each tile below is a placeholder brand-palette color block, not a stock photo,
+// so nothing here implies it's a real photo of the cafe.
+const palette = [
+  "#2E3D2F", "#C15B2C", "#7C9070", "#EDE5D2",
+  "#A8382A", "#12190F", "#F6F1E4", "#2E3D2F",
+  "#7C9070", "#C15B2C",
+];
+---
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-5xl mx-auto">
+  {palette.map((color) => (
+    <div class="aspect-square rounded-xl" style={`background:${color};`}></div>
+  ))}
+</div>

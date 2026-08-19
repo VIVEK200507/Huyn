@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  event: CollectionEntry<"events">;
+}
+const { event } = Astro.props;
+const { title, date, description } = event.data;
+const formatted = new Date(date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+---
+<article class="bg-cream-dim rounded-2xl p-6 md:p-7">
+  <!-- Placeholder tile — swap for a real event photo -->
+  <div class="w-full h-40 rounded-xl mb-5" style="background: linear-gradient(135deg, #7C9070, #2E3D2F);"></div>
+  <p class="text-xs uppercase tracking-widest text-terracotta mb-2">{formatted}</p>
+  <h3 class="font-display italic text-xl text-forest mb-2">{title}</h3>
+  <p class="text-sm text-[#5c5646] font-light leading-relaxed">{description}</p>
+</article>
